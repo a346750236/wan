@@ -6,14 +6,17 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    // 强制跳转到指定页面
     path: '/',
     redirect: '/home'
   },
   {
+    // 主页
     path: '/home',
     name: 'home',
     component: Home
   }, {
+    // 登录页
     path: '/login',
     component: Login
   }
