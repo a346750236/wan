@@ -89,7 +89,7 @@ export default {
 
 <style lang="less" scoped>
   .login{
-    background-image: url('../../assets/img/login_bg.jpg');
+    background-image: url('../../assets/img/02.jpg');
     height: 100vh;
     background-size: cover;
     display: flex;
