@@ -1,0 +1,47 @@
+[33mcommit e192594c4b25660da3247f8342b45e73af3f3e4c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Thu Dec 19 19:57:53 2019 +0800
+
+    头部信息基本完成
+
+[33mcommit 632f0c6c381142a2bfd0ac28f30d7cb0a80d0b60[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Thu Dec 19 15:45:10 2019 +0800
+
+    整体效验完成登录
+
+[33mcommit 6a17bb1c91b314a1d261e9afe73f21b1797fb2d3[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Thu Dec 19 09:25:58 2019 +0800
+
+    axios配置完成
+
+[33mcommit ebb1c7546d84f519ca9606ad31f9a99839a24e06[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Wed Dec 18 20:23:25 2019 +0800
+
+    效验完成，但是没有登录效验
+
+[33mcommit ecfb9ffa7295217492976562f86284a01ad35de2[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Wed Dec 18 17:40:20 2019 +0800
+
+    登录搭建小完成
+
+[33mcommit ace25f1cd96e145196d9f20ae49cb33de0daa635[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Wed Dec 18 16:12:24 2019 +0800
+
+    整理目录-准备资源
+
+[33mcommit 1072c9ba40fdb47e2d67ee2011cce8d474d9a076[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Wed Dec 18 15:48:19 2019 +0800
+
+    初始化项目完成
+
+[33mcommit 446f0fba2869b8ea40b481addd211c5c76335a76[m
+Author: qiaolei <a346750236@vip.qq.com>
+Date:   Wed Dec 18 09:09:44 2019 +0800
+
+    init

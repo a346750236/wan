@@ -5,30 +5,30 @@
           <img src="../../assets/img/logo_admin.png" alt="">
       </div>
    <!-- 导航组件 -->
-   <el-menu style="width:231px" background-color="#353b4e" text-color="#adafb5"  active-text-color="#ffd04b">
+   <el-menu router style="width:231px" background-color="#353b4e" text-color="#adafb5"  active-text-color="#ffd04b">
      <!-- 导航组件 index作为跳转的地址  类似于 router-link  to -->
-    <el-menu-item>
+    <el-menu-item index="/home">
       首页
     </el-menu-item>
     <el-submenu index='1'>
        <!-- 具名插槽 -->
        <span slot="title">内容管理</span>
        <!-- 放置el-menu-item -->
-       <el-menu-item>发布文章</el-menu-item>
-       <el-menu-item>内容列表</el-menu-item>
-       <el-menu-item>评论列表</el-menu-item>
-       <el-menu-item>素材管理</el-menu-item>
+       <el-menu-item index="/home/publish">发布文章</el-menu-item>
+       <el-menu-item index="/home/articles">内容列表</el-menu-item>
+       <el-menu-item index="/home/comment">评论列表</el-menu-item>
+       <el-menu-item index="/home/material">素材管理</el-menu-item>
     </el-submenu>
       <el-submenu index='2'>
        <!-- 具名插槽 -->
        <span slot="title">内容管理</span>
        <!-- 放置el-menu-item -->
-       <el-menu-item>发布文章</el-menu-item>
-       <el-menu-item>内容列表</el-menu-item>
-       <el-menu-item>评论列表</el-menu-item>
-       <el-menu-item>素材管理</el-menu-item>
+       <el-menu-item index="/home/picture">发布文章</el-menu-item>
+       <el-menu-item index="/home/fansinfo">内容列表</el-menu-item>
+       <el-menu-item index="/home/fanslife">评论列表</el-menu-item>
+       <el-menu-item index="/home/fanslist">素材管理</el-menu-item>
     </el-submenu>
-      <el-menu-item>
+      <el-menu-item index="/home/fanslist">
       账户信息
     </el-menu-item>
    </el-menu>
@@ -44,6 +44,7 @@ export default {
 <style lang="less" scoped>
 .layout-aside{
   width: 230px;
+  overflow: hidden;
   .title{
     text-align: center;
     background-color: #2e2f32;

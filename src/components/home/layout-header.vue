@@ -12,15 +12,15 @@
       <el-row type="flex" justify="end" align="middle">
         <img :src="userInfo.photo ?  userInfo.photo : defauitImg" alt />
         <!-- 下拉菜单 -->
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             {{userInfo.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>Git信息</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item command="info">个人信息</el-dropdown-item>
+            <el-dropdown-item command="git">Git信息</el-dropdown-item>
+            <el-dropdown-item command="lgout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
@@ -50,6 +50,17 @@ export default {
       // console.log(result.data.data)
       this.userInfo = result.data.data
     })
+  },
+  methods: {
+    handleCommand (command) {
+      if (command === 'lgout') {
+        window.localStorage.removeItem('user-token')
+        this.$router.push('/login')
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/a346750236/toutiao.git'
+      }
+    }
+
   }
 }
 </script>
