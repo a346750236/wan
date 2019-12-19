@@ -76,9 +76,26 @@ export default {
   methods: {
     // 定义一个提交按钮方法校验
     submitLogin () {
-      this.$refs.myFrom.validate(function (isok) {
+      this.$refs.myFrom.validate((isok) => {
         if (isok) {
-          console.log('整体效验通过，去看吧')
+          // console.log('整体效验通过，去看吧')
+          this.$axios({
+            // 请求地址
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginFrom
+          }).then(result => {
+            //  // 前端缓存令牌
+            window.localStorage.setItem('user-token', result.data.data.token)
+            // 成功登录页面
+            this.$router.push('/home')
+          }).catch(() => {
+            // elementUI的方法
+            this.$message({
+              message: '您的手机号或者验证码不正确',
+              type: 'warning'
+            })
+          })
         }
       })
     }
