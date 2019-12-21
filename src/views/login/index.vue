@@ -12,7 +12,7 @@
          <!-- 每一个表单域由一个 Form-Item 组件构成 -->
          <el-form-item  prop="mobile">
            <!-- 手机号 -->
-           <el-input v-model="loginFrom.mobile" placeholder="请输入手机号" style="margin-top:10px"></el-input>
+           <el-input v-model="loginFrom.mobile" placeholder="请输入手机号" style="margin-top:10px;"></el-input>
          </el-form-item>
          <el-form-item prop="code">
            <!-- 验证码 -->
@@ -102,7 +102,6 @@ export default {
       })
     }
   }
-
 }
 </script>
 
@@ -125,4 +124,5 @@ export default {
       }
     }
   }
+
 </style>>

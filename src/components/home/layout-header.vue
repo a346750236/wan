@@ -37,15 +37,9 @@ export default {
     }
   },
   created () {
-    // 获取token令牌
-    let token = window.localStorage.getItem('user-token')
     // 调接口,显示数据
     this.$axios({
-      url: '/user/profile',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-
+      url: '/user/profile'
     }).then(result => {
       // console.log(result.data.data)
       this.userInfo = result.data.data
