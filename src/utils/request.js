@@ -36,10 +36,12 @@ axios.interceptors.response.use(function (response) {
       // resfehtoken 过期 强制跳转到登录页 resfehtoken => 是用来换取 token的
       // this.$router => 路由实例对象
     case 403:
+      window.localStorage.removeItem('user-token')
       router.push('/login')
       break
     case 401:
       // token过期
+      window.localStorage.removeItem('user-token')
       router.push('/login') // 强制回登录
       break
     case 507:
