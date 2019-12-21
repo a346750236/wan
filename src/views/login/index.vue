@@ -87,17 +87,18 @@ export default {
           }).then(result => {
             //  // 前端缓存令牌
             // console.log('进啦')
-            window.localStorage.setItem('user-token', result.data.data.token)
+            window.localStorage.setItem('user-token', result.data.token)
             // 成功登录页面
             this.$router.push('/home')
-          }).catch(() => {
-            // elementUI的方法
-            console.log('错误了')
-            this.$message({
-              message: '您的手机号或者验证码不正确',
-              type: 'warning'
-            })
           })
+          // .catch(() => {
+          //   // elementUI的方法
+          //   console.log('错误了')
+          //   this.$message({
+          //     message: '您的手机号或者验证码不正确',
+          //     type: 'warning'
+          //   })
+          // })
         }
       })
     }
