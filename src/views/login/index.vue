@@ -16,7 +16,7 @@
          </el-form-item>
          <el-form-item prop="code">
            <!-- 验证码 -->
-           <el-input  v-model="loginFrom.code"  placeholder="请输入验证码" style="width:70%;margin-top:20px"></el-input>
+           <el-input  v-model="loginFrom.code" placeholder="请输入验证码" style="width:70%;margin-top:20px"></el-input>
            <!-- 发送验证码 -->
            <el-button style="float:right;margin-top:20px">发送验证码</el-button>
          </el-form-item>
@@ -27,7 +27,7 @@
          <!-- 登录按钮 -->
          <el-form-item>
            <!-- 注册登录按钮 -->
-            <el-button type="primary" @click="submitLogin" style="width:100%">登录</el-button>
+            <el-button type="primary" @click.prevent="submitLogin" style="width:100%">登录</el-button>
          </el-form-item>
        </el-form>
     </el-card>
@@ -86,11 +86,13 @@ export default {
             data: this.loginFrom
           }).then(result => {
             //  // 前端缓存令牌
+            // console.log('进啦')
             window.localStorage.setItem('user-token', result.data.data.token)
             // 成功登录页面
             this.$router.push('/home')
           }).catch(() => {
             // elementUI的方法
+            console.log('错误了')
             this.$message({
               message: '您的手机号或者验证码不正确',
               type: 'warning'
