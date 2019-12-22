@@ -4,7 +4,7 @@
   <el-breadcrumb-item to="/home">首页</el-breadcrumb-item>
   <el-breadcrumb-item>
       <!-- 具名插槽 -->
-      <slot name="a"></slot>
+      <slot name="title"></slot>
   </el-breadcrumb-item>
 </el-breadcrumb>
 </template>
