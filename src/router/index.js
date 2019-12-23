@@ -22,6 +22,9 @@ const routes = [
     }, {
       path: 'comment',
       component: () => import('../views/comment')
+    }, {
+      path: 'material',
+      component: () => import('../views/material')
     }]
   }, {
     // 登录页
