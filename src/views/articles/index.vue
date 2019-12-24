@@ -72,9 +72,9 @@
           <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt />
           <div class="info">
               <!-- style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis" -->
-            <span >{{ item.title }}</span>
+            <span  style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">{{ item.title }}</span>
             <!-- 过滤器不但可以在插值表达中使用 还可以在v-bind表达式中使用 -->
-            <el-tag :type="item.status | filterType" class="tag">{{ item.status | filterStatus }}</el-tag>
+            <el-tag style="width:60px"  :type="item.status | filterType" class="tag">{{ item.status | filterStatus }}</el-tag>
             <span class="data">{{ item.pubdate }}</span>
           </div>
         </el-row>
@@ -85,7 +85,7 @@
           <span>
             <i class="el-icon-edit"></i>修改
           </span>
-          <span>
+          <span @click="delArticle(item.id)">
             <i class="el-icon-delete"></i>删除
           </span>
         </el-row>
@@ -160,6 +160,24 @@ export default {
     }
   },
   methods: {
+    //   删除数据
+    delArticle (id) {
+      // 所有已发布的文章是不可以删除的  只有草稿才可以删除
+      this.$confirm('您是否要删除这个文章吗?').then(() => {
+        //   调用删除接口
+        this.$axios({
+          url: `articles/${id.toString()}`,
+          method: 'delete'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          // 最新状态
+          this.getConditionArticle()
+        })
+      })
+    },
     //   改变页码事件
     changePage (newPage) {
       this.page.currentPage = newPage // 赋值当前页
