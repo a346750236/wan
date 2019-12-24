@@ -8,7 +8,7 @@
     <!-- 写el-row是因为比较好操控布局 -->
      <el-row type='flex' justify="end" v-loading="loading">
          <!-- http-request是一个方法，用来上传图片的  show-file-lis是取消上传图片的信息-->
-        <el-upload :http-request="uploadImg" :show-file-list="false">
+        <el-upload action="ql" :http-request="uploadImg" :show-file-list="false">
               <el-button  size="small" type="primary">点击上传</el-button>
         </el-upload>
     </el-row>
@@ -20,8 +20,8 @@
           <el-card class="card-el" v-for="item in list" :key="item.id">
             <img :src="item.url" alt />
             <el-row class="operate" type="flex" align="middle" justify="space-around">
-              <i class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i @click="collectOrCancel(item)" :style="{color:item.is_collected  ? 'red': '' }" class="el-icon-star-on"></i>
+              <i @click="Deletepictures(item.id)" class="el-icon-delete-solid"></i>
             </el-row>
           </el-card>
         </div>
@@ -74,6 +74,37 @@ export default {
     }
   },
   methods: {
+    // 点击删除
+    Deletepictures (id) {
+      this.$confirm('您确定要删除吗?').then(() => {
+        this.$axios({
+          url: `user/images/${id}`,
+          method: 'delete'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          this.getAllMaterial() // 重新加载数据
+        })
+      })
+    },
+    // 点击收藏
+    collectOrCancel (row) {
+      this.$axios({
+        url: `/user/images/${row.id}`,
+        method: 'put',
+        data: {
+          collect: !row.is_collected // 收藏 -- 取消   取消 -- 收藏
+        }
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '操作成功'
+        })
+        this.getAllMaterial() // 重新加载数据
+      })
+    },
     //   上传图片
     uploadImg (params) {
       // 上传前打开
@@ -105,7 +136,7 @@ export default {
       this.$axios({
         url: '/user/images',
         params: {
-          collect: this.activeName === 'collect',
+          collect: this.activeName === 'collect', // 如果为true的话就是收藏图片，否则为全部图片
           page: this.page.currentPage,
           per_page: this.page.pageSize
         }
@@ -143,6 +174,9 @@ export default {
       left: 0;
       background-color: #f4f5f6;
       height: 30px;
+      i{
+        cursor:pointer
+      }
     }
   }
 }

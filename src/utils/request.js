@@ -19,13 +19,13 @@ axios.interceptors.request.use(function (config) {
 })
 // 后台数据 到达 响应拦截之前走的一个函数
 axios.defaults.transformResponse = [function (data) {
-  return JSONBig.parse(data) // JSONbig.parse 替换 JSON.parse  保证数字的正确
+  return data ? JSONBig.parse(data) : data// JSONbig.parse 替换 JSON.parse  保证数字的正确
 }]
 
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
   // 成功时执行
-  return response.data ? response.data : {} // 解决当data不存在时  then中读取数据报错问题
+  return response.data ? response.data : { response } // 解决当data不存在时  then中读取数据报错问题
 }, function (error) {
   console.log(error)
   // 回调函数  所有的失败 都会进入到第二个回调函数
