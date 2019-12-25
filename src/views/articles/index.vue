@@ -12,7 +12,8 @@
       </el-col>
       <el-col :span="18">
         <!-- 单选框组 -->
-        <el-radio-group  @change="changeCondition" v-model="formData.status">
+        <!-- @change="changeCondition"是一种方式，watch是第二种方式 -->
+        <el-radio-group v-model="formData.status">
           <!-- 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，，不传为全部 -->
           <!-- 全部这个5是默认的,在传参的时候判断一下 是不是5 如果是5 就传个null -->
           <el-radio :label="5">全部</el-radio>
@@ -29,7 +30,7 @@
       </el-col>
       <!-- 下拉框 -->
       <el-col :span="18">
-        <el-select v-model="formData.channel_id"  @change="changeCondition">
+        <el-select v-model="formData.channel_id">
           <!-- 循环生成多个el-option
               label 指的是 el-option显示值
               value指的是 el-option的存储值
@@ -44,7 +45,6 @@
       </el-col>
       <el-col :span="18">
         <el-date-picker
-         @change="changeCondition"
           v-model="formData.dateRange"
           value-format="yyyy-MM-dd"
           type="daterange"
@@ -71,10 +71,16 @@
         <el-row type="flex" justify>
           <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt />
           <div class="info">
-              <!-- style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis" -->
-            <span  style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis">{{ item.title }}</span>
+            <!-- style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis" -->
+            <span
+              style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+            >{{ item.title }}</span>
             <!-- 过滤器不但可以在插值表达中使用 还可以在v-bind表达式中使用 -->
-            <el-tag style="width:60px"  :type="item.status | filterType" class="tag">{{ item.status | filterStatus }}</el-tag>
+            <el-tag
+              style="width:60px"
+              :type="item.status | filterType"
+              class="tag"
+            >{{ item.status | filterStatus }}</el-tag>
             <span class="data">{{ item.pubdate }}</span>
           </div>
         </el-row>
@@ -92,7 +98,7 @@
       </el-col>
     </el-row>
     <!-- 分页组件 -->
-    <el-row type='flex' justify="center" align="middle" style='height:60px'>
+    <el-row type="flex" justify="center" align="middle" style="height:60px">
       <el-pagination
         background
         layout="prev, pager, next"
@@ -100,8 +106,7 @@
         :current-page="page.currentPage"
         :page-size="page.pageSize"
         @current-change="changePage"
-        >
-        </el-pagination>
+      ></el-pagination>
     </el-row>
   </el-card>
 </template>
@@ -123,6 +128,16 @@ export default {
         pageSize: 10, // 文章列表最低10条
         total: 0
       }
+    }
+  },
+  // 第二种方式
+  watch: {
+    // 监听谁就写谁的名字
+    formData: {
+      handler () {
+        this.changeCondition()
+      },
+      deep: true // 深度检测不论你obj中有多少层 只要有一个数据变化 就会触发 obj中的一个函数 handler
     }
   },
   filters: {
@@ -197,8 +212,11 @@ export default {
         per_page: this.page.pageSize, // 分页信息
         status: this.formData.status === 5 ? null : this.formData.status, // 不传为全部 5代表全部
         channel_id: this.formData.channel_id, // 频道
-        begin_pubdate: this.formData.dateRange.length ? this.formData.dateRange[0] : null, // 起始时间
-        end_pubdate: this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null // 截止时间
+        begin_pubdate: this.formData.dateRange.length
+          ? this.formData.dateRange[0]
+          : null, // 起始时间
+        end_pubdate:
+          this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null // 截止时间
       }
       // 文章列表
       this.getArticles(params)
