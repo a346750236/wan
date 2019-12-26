@@ -5,7 +5,7 @@
             <template slot="title">发布文章</template>
         </my-bread>
         <!-- 表单元素 -->
-        <el-form :model="formData" :rules="publishRules" style="margin-left:50px" label-width="100px">
+        <el-form ref="publishForm" :model="formData" :rules="publishRules" style="margin-left:50px" label-width="100px">
             <el-form-item prop="title" label="标题">
                 <el-input v-model="formData.title" style="width:65%"></el-input>
             </el-form-item>
@@ -27,8 +27,8 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">发布</el-button>
-                <el-button >存入草稿</el-button>
+                <el-button @click="publishArticle()" type="primary">发布</el-button>
+                <el-button @click="publishArticle(true)">存入草稿</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -64,6 +64,23 @@ export default {
     }
   },
   methods: {
+    // 发布文章
+    publishArticle (draft) {
+      this.$refs.publishForm.validate((isok) => {
+        if (isok) {
+          // 调用接口
+          this.$axios({
+            url: '/articles',
+            method: 'post',
+            params: { draft }, // query的参数
+            data: this.formData
+          }).then(() => {
+            // 添加成功，跳转到内容列表
+            this.$router.push('/home/articles') // 回到内容列表
+          })
+        }
+      })
+    },
     //   获取频道数据
     getChannels () {
       this.$axios({
