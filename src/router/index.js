@@ -21,16 +21,19 @@ const routes = [
       component: Home2
     }, {
       path: 'comment',
-      component: () => import('../views/comment')
+      component: () => import('../views/comment') // 按需加载
     }, {
       path: 'material',
-      component: () => import('../views/material')
+      component: () => import('../views/material') // 按需加载
     }, {
       path: 'articles',
-      component: () => import('../views/articles')
+      component: () => import('../views/articles') // 按需加载
     }, {
-      path: 'publish',
-      component: () => import('../views/publish')
+      path: 'publish/:arId', // 定义动态路由参数  此规则只匹配修改文章
+      component: () => import('../views/publish') // 按需加载
+    }, {
+      path: 'publish', //  此规则匹配发布文章
+      component: () => import('../views/publish') // 按需加载
     }]
   }, {
     // 登录页

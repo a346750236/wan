@@ -27,6 +27,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
+                <!-- @事件名="方法" =>有默认参数 => 方法()  => 方法() =>一个参数都没有 -->
                 <el-button @click="publishArticle()" type="primary">发布</el-button>
                 <el-button @click="publishArticle(true)">存入草稿</el-button>
             </el-form-item>
@@ -63,21 +64,71 @@ export default {
       }
     }
   },
+  watch: {
+    $route: function (to, from) {
+      if (Object.keys(to.params).length) {
+        //  有参数  => 修改
+      } else {
+        // 没有参数  => 发布 // 没有参数  => 发布
+        this.formData = {
+          title: '', // 标题
+          content: '', // 文章内容
+          cover: {
+            type: 0, //   封面类型 -1:自动，0-无图，1-1张，3-3张
+            images: [] // 存储的图片的地址
+          }
+        }
+      }
+    }
+    // 'formData.cover.type': function () {
+    //   //  this指向组件实例
+    //   if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //     // 无图或者自动模式
+    //     this.formData.cover.images = []
+    //   } else if (this.formData.cover.type === 1) {
+    //     this.formData.cover.images = [''] // 单图模式
+    //   } else if (this.formData.cover.type === 3) {
+    //     this.formData.cover.images = ['', '', ''] // 单图模式
+    //   }
+    // }
+  },
   methods: {
     // 发布文章
     publishArticle (draft) {
-      this.$refs.publishForm.validate((isok) => {
-        if (isok) {
-          // 调用接口
+      this.$refs.publishForm.validate((isOK) => {
+        if (isOK) {
+          let { arId } = this.$route.params // 回去动态路由参数 articleId已经是字符串
           this.$axios({
-            url: '/articles',
-            method: 'post',
-            params: { draft }, // query的参数
+            method: arId ? 'put' : 'post',
+            url: arId ? `/articles/${arId}` : `/articles`,
+            params: { draft }, // query参数
             data: this.formData
-          }).then(() => {
-            // 添加成功，跳转到内容列表
+          }).then(result => {
             this.$router.push('/home/articles') // 回到内容列表
           })
+          // if (articleId) {
+          //   // 修改文章
+          //   this.$axios({
+          //     method: 'put',
+          //     url: `/articles/${articleId}`,
+          //     params: { draft }, // query参数
+          //     data: this.formData
+          //   }).then(() => {
+          //   // 新增成功 => 应该去内容列表
+          //     this.$router.push('/home/articles') // 回到内容列表
+          //   })
+          // } else {
+          // // 可以去进行 发布接口调用
+          //   this.$axios({
+          //     url: '/articles',
+          //     method: 'post',
+          //     params: { draft }, // query参数
+          //     data: this.formData
+          //   }).then(() => {
+          //   // 新增成功 => 应该去内容列表
+          //     this.$router.push('/home/articles') // 回到内容列表
+          //   })
+          // }
         }
       })
     },
@@ -88,10 +139,21 @@ export default {
       }).then((result) => {
         this.channels = result.data.channels // 获取文章列表
       })
+    },
+    // 获取文章详情通过id
+    getArticleById (arId) {
+      this.$axios({
+        url: `/articles/${arId}`
+      }).then(result => {
+        this.formData = result.data // 将指定文章数据给data数据
+      })
     }
   },
   created () {
     this.getChannels() // 获取文章列表
+    // 获取id 判断有无di 有id 就是修改 没id就是发布
+    let { arId } = this.$route.params //     回去动态路由参数 arId
+    arId && this.getArticleById(arId) // 获取文章数据
   }
 }
 </script>
