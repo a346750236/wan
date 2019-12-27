@@ -2,13 +2,18 @@
   <div class='cover-image'>
       <!-- 根据封面的images长度 进行渲染 一个或者3个或者不渲染 -->
       <div v-for="(item,index) in list" :key="index" class='cover-item'>
-         <img src="../../assets/img/pic_bg.png" alt="">
+         <img :src="item ? item : defaultImg" alt="">
       </div>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      defaultImg: require('../../assets/img/pic_bg.png') // 将图片变成变量
+    }
+  },
   props: ['list'] // 接收属性
 }
 </script>

@@ -13,7 +13,7 @@
                 <quill-editor  style="height:400px;" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
             </el-form-item>
             <el-form-item prop="type" label="封面" style="margin-top:140px">
-                <el-radio-group v-model="formData.cover.type">
+                <el-radio-group @change="changeType" v-model="formData.cover.type">
                     <el-radio :label="1">单图</el-radio>
                     <el-radio :label="3">三图</el-radio>
                     <el-radio :label="0">无图</el-radio>
@@ -21,7 +21,7 @@
                 </el-radio-group>
             </el-form-item>
                <!-- 放置一个封面组件  父组件  => 子组件 props -->
-        <C-image :list="formData.cover.images"></C-image>
+          <C-image :list="formData.cover.images"></C-image>
             <el-form-item prop="channel_id" label="频道">
                 <el-select v-model="formData.channel_id">
                     <!-- 循环生成文章列表数据 -->
@@ -81,9 +81,23 @@ export default {
           }
         }
       }
-    },
-    'formData.cover.type': function () {
-      //  this指向组件实例
+    }
+    // 'formData.cover.type': function () {
+    //   //  this指向组件实例
+    //   // if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //   //   // 无图或者自动模式
+    //   //   this.formData.cover.images = []
+    //   // } else if (this.formData.cover.type === 1) {
+    //   //   this.formData.cover.images = [''] // 单图模式
+    //   // } else if (this.formData.cover.type === 3) {
+    //   //   this.formData.cover.images = ['', '', ''] // 单图模式
+    //   // }
+    // }
+  },
+  methods: {
+    // 切换类型时触发  该方法 只有点击切换时才会触发
+    changeType () {
+      alert(1)
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         // 无图或者自动模式
         this.formData.cover.images = []
@@ -92,9 +106,7 @@ export default {
       } else if (this.formData.cover.type === 3) {
         this.formData.cover.images = ['', '', ''] // 单图模式
       }
-    }
-  },
-  methods: {
+    },
     // 发布文章
     publishArticle (draft) {
       this.$refs.publishForm.validate((isOK) => {
