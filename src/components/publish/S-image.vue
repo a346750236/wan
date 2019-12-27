@@ -5,7 +5,7 @@
         <!-- 循环生成选择列表 -->
          <el-card class="img-card" v-for="item in list" :key="item.id">
             <!-- 点击图片时 调用方法 将图片地址传出去 -->
-          <img :src="item.url" alt />
+          <img @click="clickImg(item.url)" :src="item.url" alt />
         </el-card>
       </div>
        <!-- 放置一个分页组件 -->
@@ -36,6 +36,10 @@ export default {
     }
   },
   methods: {
+    //   传值
+    clickImg (url) {
+      this.$emit('SelectImg', url)
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       //  重新获取数据

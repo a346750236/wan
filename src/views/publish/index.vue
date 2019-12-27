@@ -21,7 +21,7 @@
                 </el-radio-group>
             </el-form-item>
                <!-- 放置一个封面组件  父组件  => 子组件 props -->
-          <C-image :list="formData.cover.images"></C-image>
+          <C-image @CoverOneImg="PubImg" :list="formData.cover.images"></C-image>
             <el-form-item prop="channel_id" label="频道">
                 <el-select v-model="formData.channel_id">
                     <!-- 循环生成文章列表数据 -->
@@ -95,9 +95,13 @@ export default {
     // }
   },
   methods: {
+    // 接收传过来的值，修改图片
+    PubImg (img, index) {
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? img : item)
+    },
     // 切换类型时触发  该方法 只有点击切换时才会触发
     changeType () {
-      alert(1)
+      // alert(1)
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         // 无图或者自动模式
         this.formData.cover.images = []
