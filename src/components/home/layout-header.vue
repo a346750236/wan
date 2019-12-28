@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -37,15 +38,22 @@ export default {
     }
   },
   created () {
-    // 调接口,显示数据
-    this.$axios({
-      url: '/user/profile'
-    }).then(result => {
-      // console.log(result.data.data)
-      this.userInfo = result.data
+    this.getUserInfo()
+    // 一进来就告诉完成更新了
+    eventBus.$on('updateUserInfoSuccess', () => {
+      this.getUserInfo()
     })
   },
   methods: {
+    getUserInfo () {
+      // 调接口,显示数据
+      this.$axios({
+        url: '/user/profile'
+      }).then(result => {
+      // console.log(result.data.data)
+        this.userInfo = result.data
+      })
+    },
     handleCommand (command) {
       if (command === 'lgout') {
         window.localStorage.removeItem('user-token')
