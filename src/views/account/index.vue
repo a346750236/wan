@@ -6,7 +6,7 @@
        </my-bread>
        <!-- 放置上传文件 -->
        <el-unload :http-request="uploadImg" class="head-upload" action="" :show-file-list="false">
-          <img src="../../assets/img/02.jpg" alt="">
+          <img :src="formData.photo ? formData.photo : defaultImg" alt="">
        </el-unload>
        <!-- 放置组件 -->
        <el-form :model="formData" style="margin-left:80px" label-width="100px">
@@ -20,7 +20,7 @@
            <el-input v-model="formData.email" style="width:30%"></el-input>
          </el-form-item>
          <el-form-item label="手机号">
-           <el-input style="width:30%"></el-input>
+           <el-input v-model="formData.mobile"  disabled style="width:30%"></el-input>
          </el-form-item>
          <el-form-item>
            <el-button type="primary">保存信息</el-button>
@@ -39,11 +39,23 @@ export default {
         photo: '', // 头像
         email: '', // 邮箱
         mobile: '' // 手机号
-      }
+      },
+      defaultImg: require('../../assets/img/02.jpg')
     }
   },
   methods: {
-
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      }).then(result => {
+        this.formData = result.data
+      }
+      )
+    }
+  },
+  created () {
+    // getUserInfo
+    this.getUserInfo()
   }
 }
 </script>
