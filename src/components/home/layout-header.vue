@@ -4,8 +4,8 @@
     <!-- 左侧 -->
     <el-col class="left" :span="6">
       <!-- 左侧图标 -->
-      <i @click="collaspseOrOpen" :class="{'el-icon-s-unfold':collaspse , 'el-icon-s-fold' : !collaspse}"></i>
-      <span class="title">河南省淅川县厚坡镇乔磊开发</span>
+      <i  @click="collaspseOrOpen" :class="{'el-icon-s-unfold':collaspse , 'el-icon-s-fold' : !collaspse}"></i>
+      <span class="title">河南省南阳市淅川县厚坡镇后街村</span>
     </el-col>
     <!-- 右侧 -->
     <el-col :span="4" class="right">
