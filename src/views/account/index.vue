@@ -5,7 +5,7 @@
           <template slot="title">账户信息</template>
        </my-bread>
        <!-- 放置上传文件 -->
-       <el-upload  :http-request="uploadImg"  class="head-upload" action="" :show-file-list="false">
+       <el-upload v-loading="loading" :http-request="uploadImg"  class="head-upload" action="" :show-file-list="false">
           <img :src="formData.photo ? formData.photo : defaultImg" alt="">
        </el-upload>
        <!-- 放置组件 -->
@@ -40,6 +40,7 @@ export default {
         email: '', // 邮箱
         mobile: '' // 手机号
       },
+      loading: false, // 默认关
       rules: {
         name: [{
           required: true, message: '用户名内容不能为空'
@@ -57,6 +58,20 @@ export default {
     }
   },
   methods: {
+    // 上传图片
+    uploadImg (params) {
+      this.loading = true // 打开
+      var data = new FormData() // 实例化一个
+      data.append('photo', params.file)
+      this.$axios({
+        url: '/user/photo',
+        method: 'patch',
+        data
+      }).then((result) => {
+        this.formData.photo = result.data.photo // 修改头像
+        this.loading = false // 关闭
+      })
+    },
     // 提交校验
     saveUserInfo () {
       this.$refs.myForm.validate((isok) => {
