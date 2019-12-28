@@ -4,9 +4,9 @@
   全部子元素会垂直上下排列，否则会水平左右排列。-->
   <el-container>
     <!-- 左右布局 -->
-    <el-aside  style="min-height:100vh;background-color:#353b4e;width:230px">
+    <el-aside :style="{width:collaspse ? '60px' : '230px'}" style=" transition:all 0.3s;min-height:100vh;background-color:#353b4e;">
       <!-- 放置左侧组件 -->
-      <layout-aside></layout-aside>
+      <layout-aside :collaspse="collaspse"></layout-aside>
     </el-aside>
     <!-- 在放置一个container -->
     <el-container>
@@ -24,7 +24,23 @@
 </template>
 
 <script>
-export default {}
+import eventBus from '../../utils/eventBus'
+export default {
+  data () {
+    return {
+      collaspse: false // 是否折叠
+    }
+  },
+  components: {
+
+  },
+  created () {
+    // 开启监听
+    eventBus.$on('changeCollapse', () => {
+      this.collaspse = !this.collaspse
+    })
+  }
+}
 </script>
 
 <style>

@@ -4,7 +4,7 @@
     <!-- 左侧 -->
     <el-col class="left" :span="6">
       <!-- 左侧图标 -->
-      <i class="el-icon-s-fold"></i>
+      <i @click="collaspseOrOpen" :class="{'el-icon-s-unfold':collaspse , 'el-icon-s-fold' : !collaspse}"></i>
       <span class="title">河南省淅川县厚坡镇乔磊开发</span>
     </el-col>
     <!-- 右侧 -->
@@ -33,6 +33,7 @@ import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
+      collaspse: false, // 是否折叠
       userInfo: {}, // 用户信息
       defauitImg: require('../../assets/img/02.jpg')
     }
@@ -45,6 +46,12 @@ export default {
     })
   },
   methods: {
+    collaspseOrOpen () {
+      //  取反~
+      this.collaspse = !this.collaspse
+      // 通过event方式通知别人要改变宽度了
+      eventBus.$emit('changeCollapse')
+    },
     getUserInfo () {
       // 调接口,显示数据
       this.$axios({
