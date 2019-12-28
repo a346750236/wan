@@ -1,9 +1,9 @@
 <template>
   <div class="cover-image">
     <!-- 根据封面的images长度 进行渲染 一个或者3个或者不渲染 -->
-    <div @click="openDialog(index)" v-for="(item,index) in list" :key="index" class="cover-item">
-      <img :src="item ? item : defaultImg" alt />
-    </div>
+      <div @click="openDialog(index)"  v-for="(item,index) in list"  :key="index"  class="cover-item">
+           <img :src="item ? item : defaultImg" alt />
+      </div>
     <!-- 下拉框 -->
     <!-- 生成的元素才body上 用visible控制显示隐藏 -->
     <el-dialog :visible="dialogVisible" @close="closeDialog">
