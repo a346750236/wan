@@ -28,7 +28,7 @@
        <el-menu-item index="/home/fanslife">评论列表</el-menu-item>
        <el-menu-item index="/home/fanslist">素材管理</el-menu-item>
     </el-submenu>
-      <el-menu-item index="/home/fanslist">
+      <el-menu-item index="/home/account">
       账户信息
     </el-menu-item>
    </el-menu>
