@@ -151,20 +151,18 @@ export default {
       })
     },
     //   获取频道数据
-    getChannels () {
-      this.$axios({
+    async  getChannels () {
+      let result = await this.$axios({
         url: '/channels'
-      }).then((result) => {
-        this.channels = result.data.channels // 获取文章列表
       })
+      this.channels = result.data.channels // 获取文章列表
     },
     // 获取文章详情通过id
-    getArticleById (arId) {
-      this.$axios({
+    async   getArticleById (arId) {
+      let result = await this.$axios({
         url: `/articles/${arId}`
-      }).then(result => {
-        this.formData = result.data // 将指定文章数据给data数据
       })
+      this.formData = result.data // 将指定文章数据给data数据
     }
   },
   created () {

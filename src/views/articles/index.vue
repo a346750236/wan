@@ -180,22 +180,20 @@ export default {
       this.$router.push(`/home/publish/${id.toString()}`) // 到发布页面
     },
     //   删除数据
-    delArticle (id) {
+    async  delArticle (id) {
       // 所有已发布的文章是不可以删除的  只有草稿才可以删除
-      this.$confirm('您是否要删除这个文章吗?').then(() => {
-        //   调用删除接口
-        this.$axios({
-          url: `articles/${id.toString()}`,
-          method: 'delete'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功'
-          })
-          // 最新状态
-          this.getConditionArticle()
-        })
+      await this.$confirm('您是否要删除这个文章吗?')
+      //   调用删除接口
+      await this.$axios({
+        url: `articles/${id.toString()}`,
+        method: 'delete'
       })
+      this.$message({
+        type: 'success',
+        message: '删除成功'
+      })
+      // 最新状态
+      this.getConditionArticle()
     },
     //   改变页码事件
     changePage (newPage) {
@@ -226,22 +224,20 @@ export default {
       this.getArticles(params)
     },
     //   获取频道列表数据
-    Channellist () {
-      this.$axios({
+    async  Channellist () {
+      let result = await this.$axios({
         url: '/channels'
-      }).then(result => {
-        this.channels = result.data.channels // 获取频道数据
       })
+      this.channels = result.data.channels // 获取频道数据
     },
     // 获取文章列表数据
-    getArticles (params) {
-      this.$axios({
+    async getArticles (params) {
+      let result = await this.$axios({
         url: '/articles',
         params // 传就有，不传就为undefined
-      }).then(result => {
-        this.Wzlist = result.data.results // 接收文章列表数据
-        this.page.total = result.data.total_count // 文章总数
       })
+      this.Wzlist = result.data.results // 接收文章列表数据
+      this.page.total = result.data.total_count // 文章总数
     }
   },
   created () {

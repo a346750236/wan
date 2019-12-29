@@ -21,7 +21,6 @@ export default {
       dialogVisible: false, // 默认关闭
       defaultImg: require('../../assets/img/pic_bg.png'), // 将图片变成变量
       selectIndex: -1 // 默认下标 -1
-
     }
   },
   methods: {

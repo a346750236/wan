@@ -60,19 +60,18 @@ export default {
   },
   methods: {
     // 上传图片
-    uploadImg (params) {
+    async uploadImg (params) {
       this.loading = true // 打开
       var data = new FormData() // 实例化一个
       data.append('photo', params.file)
-      this.$axios({
+      let result = await this.$axios({
         url: '/user/photo',
         method: 'patch',
         data
-      }).then((result) => {
-        this.formData.photo = result.data.photo // 修改头像
-        eventBus.$emit('updateUserInfoSuccess') // 触发一个自定义事件
-        this.loading = false // 关闭
       })
+      this.formData.photo = result.data.photo // 修改头像
+      eventBus.$emit('updateUserInfoSuccess') // 触发一个自定义事件
+      this.loading = false // 关闭
     },
     // 提交校验
     saveUserInfo () {
@@ -94,13 +93,11 @@ export default {
       })
     },
     // 获取用户信息
-    getUserInfo () {
-      this.$axios({
+    async getUserInfo () {
+      let result = await this.$axios({
         url: '/user/profile'
-      }).then(result => {
-        this.formData = result.data
-      }
-      )
+      })
+      this.formData = result.data
     }
   },
   created () {

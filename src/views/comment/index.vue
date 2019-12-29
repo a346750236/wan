@@ -60,27 +60,26 @@ export default {
       this.getComment()
     },
     // 请求评论列表数据
-    getComment () {
+    async getComment () {
       this.loading = true // 打开状态
 
       // axios 是默认是get类型
       // query 参数 / 路由参数 地址参数 get参数  axios  params
       // body参数 给 data
       // 身份信息 headers
-      this.$axios({
+      let result = await this.$axios({
         url: '/articles',
         params: {
           response_type: 'comment',
           page: this.page.currentPage,
           per_page: this.page.pageSize
         }
-      }).then(result => {
-        this.list = result.data.results
-        this.page.totle = result.data.total_count
-        // 设置一个定时器,每次加载需要0.3S
-        setTimeout(() => { this.loading = false }, 300)
-        // this.loading = false
       })
+      this.list = result.data.results
+      this.page.totle = result.data.total_count
+      // 设置一个定时器,每次加载需要0.3S
+      setTimeout(() => { this.loading = false }, 300)
+      // this.loading = false
     },
     // 定义一个方法来解决状态
     Formatters (row, column, cellValue, index) {
@@ -91,29 +90,27 @@ export default {
       return cellValue ? '正常' : '关闭'
     },
     // 切换状态开关
-    openOrClose (row) {
+    async openOrClose (row) {
       let mess = row.comment_status ? '关闭' : '打开'
       // $confirm 确定时  进入then 取消时进入catch
-      this.$confirm(`您是否确认要${mess}评论吗？`).then(() => {
-        // 用户提示需要接口
-        // 地址参数/query参数/url参数/路由参数 => 可以在params中写 也可以直接拼接到url地址上
-        this.$axios({
-          method: 'put',
-          url: '/comments/status',
-          params: {
-            article_id: row.id.toString()
-          },
-          data: {
-            allow_comment: !row.comment_status
-          }
-        }).then(result => {
-          this.$message({
-            type: 'success',
-            message: '操作成功'
-          })
-          this.getComment() // 重新请求列表
-        })
+      await this.$confirm(`您是否确认要${mess}评论吗？`)
+      // 用户提示需要接口
+      // 地址参数/query参数/url参数/路由参数 => 可以在params中写 也可以直接拼接到url地址上
+      await this.$axios({
+        method: 'put',
+        url: '/comments/status',
+        params: {
+          article_id: row.id.toString()
+        },
+        data: {
+          allow_comment: !row.comment_status
+        }
       })
+      this.$message({
+        type: 'success',
+        message: '操作成功'
+      })
+      this.getComment() // 重新请求列表
     }
   },
   created () {

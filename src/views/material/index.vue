@@ -69,57 +69,53 @@ export default {
       page: {
         total: 0, // 总条数
         currentPage: 1, // 当前默认显示第一页
-        pageSize: 10 // 每条显示8个
+        pageSize: 12 // 每条显示8个
       }
     }
   },
   methods: {
     // 点击删除
-    Deletepictures (id) {
-      this.$confirm('您确定要删除吗?').then(() => {
-        this.$axios({
-          url: `user/images/${id}`,
-          method: 'delete'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功'
-          })
-          this.getAllMaterial() // 重新加载数据
-        })
+    async Deletepictures (id) {
+      await this.$confirm('您确定要删除吗?')
+      await this.$axios({
+        url: `user/images/${id}`,
+        method: 'delete'
       })
+      this.$message({
+        type: 'success',
+        message: '删除成功'
+      })
+      this.getAllMaterial() // 重新加载数据
     },
     // 点击收藏
-    collectOrCancel (row) {
-      this.$axios({
+    async collectOrCancel (row) {
+      await this.$axios({
         url: `/user/images/${row.id}`,
         method: 'put',
         data: {
           collect: !row.is_collected // 收藏 -- 取消   取消 -- 收藏
         }
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '操作成功'
-        })
-        this.getAllMaterial() // 重新加载数据
       })
+      this.$message({
+        type: 'success',
+        message: '操作成功'
+      })
+      this.getAllMaterial() // 重新加载数据
     },
     //   上传图片
-    uploadImg (params) {
+    async uploadImg (params) {
       // 上传前打开
       this.loading = true
       let form = new FormData() // 创建一个formData
       form.append('image', params.file) // 上传append添加到formData数据中
-      this.$axios({
+      await this.$axios({
         url: '/user/images',
         method: 'post',
         data: form
-      }).then(result => {
-        //   上传完关闭加载
-        this.loading = false
-        this.getAllMaterial() // 调用请求数据
       })
+      //   上传完关闭加载
+      this.loading = false
+      this.getAllMaterial() // 调用请求数据
     },
     //   切换tab事件
     changeTab () {
@@ -132,18 +128,17 @@ export default {
       this.getAllMaterial()
     },
     //   获取所有素材/收藏
-    getAllMaterial () {
-      this.$axios({
+    async  getAllMaterial () {
+      let result = await this.$axios({
         url: '/user/images',
         params: {
           collect: this.activeName === 'collect', // 如果为true的话就是收藏图片，否则为全部图片
           page: this.page.currentPage,
           per_page: this.page.pageSize
         }
-      }).then(result => {
-        this.list = result.data.results
-        this.page.total = result.data.total_count //
       })
+      this.list = result.data.results
+      this.page.total = result.data.total_count //
     }
   },
   created () {
